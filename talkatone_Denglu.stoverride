@@ -1,49 +1,65 @@
-# Name: talkatone
-# Description: 去广告｜让登录更简单
-# Author: axin-Under
-# System: iOS
-# Category: axin
-# Date: 2024-05-16 17:12:56
+# Metadata
+metadata:
+  name: talkatone
+  description: |
+    去广告｜让登录更简单
 
-[Script]
-throttle-rewrite = type=http-response,pattern=^https:\/\/gum\.criteo\.com\/appevent\/v1\/2379\?.*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/axinhouzilaoyue/myScript/main/surge/throttle-rewrite.js
+    需要让这个域名代理：DOMAIN-SUFFIX,tktn.be
+  author: axin-Under
+  category: axin
+  date: 2024-05-16 17:12:56
 
-[URL Rewrite]
-# ^https:\/\/aax-fe-sin\.amazon-adsystem\.com\/x\/px\/p\/.+\/\{.+?\} - reject
-# ^https?:\/\/httpdns\.music\.163\.com - reject
+# Script
+script:
+  throttle-rewrite:
+    type: http-response
+    pattern: ^https:\/\/gum\.criteo\.com\/appevent\/v1\/2379\?.*
+    requires-body: true
+    max-size: 0
+    script-path: https://raw.githubusercontent.com/axinhouzilaoyue/myScript/main/surge/throttle-rewrite.js
 
-[Rule]
-# 去广告
-DOMAIN-SUFFIX,ads.inmobi.com,REJECT
-DOMAIN-SUFFIX,tappx.com,REJECT
-DOMAIN-SUFFIX,criteo.com,REJECT
-DOMAIN-SUFFIX,pubmatic.com,REJECT
-DOMAIN-SUFFIX,smaato.net,REJECT
-DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
-DOMAIN-KEYWORD,googleads,REJECT
-DOMAIN-SUFFIX,adsappier.com,REJECT
-DOMAIN-SUFFIX,appier.net,REJECT
-DOMAIN-SUFFIX,appiersig.com,REJECT
+# URL Rewrite
+url-rewrite:
+  # Uncomment the following lines if needed
+  # ^https:\/\/aax-fe-sin\.amazon-adsystem\.com\/x\/px\/p\/.+\/\{.+?\}: reject
+  # ^https?:\/\/httpdns\.music\.163\.com: reject
 
-# 让登录更容易
-DOMAIN-SUFFIX,mobilefuse.com,DIRECT
-DOMAIN-SUFFIX,inmobi.com,DIRECT
-DOMAIN-SUFFIX,crashlytics.com,DIRECT
-DOMAIN-SUFFIX,talkatone.com,DIRECT
-DOMAIN-SUFFIX,kochava.com,DIRECT
+# Rules
+rules:
+  # 去广告
+  - DOMAIN-SUFFIX,ads.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,tappx.com,REJECT
+  - DOMAIN-SUFFIX,criteo.com,REJECT
+  - DOMAIN-SUFFIX,pubmatic.com,REJECT
+  - DOMAIN-SUFFIX,smaato.net,REJECT
+  - DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+  - DOMAIN-KEYWORD,googleads,REJECT
+  - DOMAIN-SUFFIX,adsappier.com,REJECT
+  - DOMAIN-SUFFIX,appier.net,REJECT
+  - DOMAIN-SUFFIX,appiersig.com,REJECT
 
-# 这个域名最好走代理，我这边直连已超时
-DOMAIN-SUFFIX,tktn.be,PROXY
-DOMAIN-SUFFIX,cohere.com,DIRECT
-DOMAIN-SUFFIX,ip-api.com,DIRECT
-DOMAIN-SUFFIX,agkn.com,DIRECT
-DOMAIN-SUFFIX,tktn.at,DIRECT
+  # 让登录更容易
+  - DOMAIN-SUFFIX,mobilefuse.com,DIRECT
+  - DOMAIN-SUFFIX,inmobi.com,DIRECT
+  - DOMAIN-SUFFIX,crashlytics.com,DIRECT
+  - DOMAIN-SUFFIX,talkatone.com,DIRECT
+  - DOMAIN-SUFFIX,kochava.com,DIRECT
 
-# IP CIDR 规则
-IP-CIDR,50.117.27.0/24,DIRECT
-IP-CIDR,69.46.75.0/24,DIRECT
-IP-CIDR,205.164.56.0/24,DIRECT
-IP-CIDR,63.251.124.0/24,DIRECT
+  # 这个域名最好走代理，我这边直连已超时
+  # - DOMAIN-SUFFIX,tktn.be
 
-[MITM]
-hostname = %APPEND% gum.criteo.com
+  - DOMAIN-SUFFIX,cohere.com,DIRECT
+  - DOMAIN-SUFFIX,ip-api.com,DIRECT
+  - DOMAIN-SUFFIX,agkn.com,DIRECT
+  - DOMAIN-SUFFIX,tktn.at,DIRECT
+
+  # IP-CIDR 规则
+  - IP-CIDR,50.117.27.0/24,DIRECT
+  - IP-CIDR,69.46.75.0/24,DIRECT
+  - IP-CIDR,205.164.56.0/24,DIRECT
+  - IP-CIDR,63.251.124.0/24,DIRECT
+
+# MITM
+mitm:
+  hostname:
+    - gum.criteo.com
