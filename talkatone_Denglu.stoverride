@@ -1,0 +1,46 @@
+name: "Talkatone Remove Ads"
+desc: "去广告｜让登录更简单"
+author: "axin-Under"
+version: "1.0.0"
+global: false
+hostname:  
+  - "gum.criteo.com"
+
+rules:
+  - DOMAIN-SUFFIX,ads.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,tappx.com,REJECT
+  - DOMAIN-SUFFIX,criteo.com,REJECT
+  - DOMAIN-SUFFIX,pubmatic.com,REJECT
+  - DOMAIN-SUFFIX,smaato.net,REJECT
+  - DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+  - DOMAIN-KEYWORD,googleads,REJECT
+  - DOMAIN-SUFFIX,adsappier.com,REJECT
+  - DOMAIN-SUFFIX,appier.net,REJECT
+  - DOMAIN-SUFFIX,appiersig.com,REJECT
+  - DOMAIN-SUFFIX,mobilefuse.com,DIRECT
+  - DOMAIN-SUFFIX,inmobi.com,DIRECT
+  - DOMAIN-SUFFIX,crashlytics.com,DIRECT
+  - DOMAIN-SUFFIX,talkatone.com,DIRECT
+  - DOMAIN-SUFFIX,kochava.com,DIRECT
+  - DOMAIN-SUFFIX,cohere.com,DIRECT
+  - DOMAIN-SUFFIX,ip-api.com,DIRECT
+  - DOMAIN-SUFFIX,agkn.com,DIRECT
+  - DOMAIN-SUFFIX,tktn.at,DIRECT
+  - IP-CIDR,50.117.27.0/24,DIRECT
+  - IP-CIDR,69.46.75.0/24,DIRECT
+  - IP-CIDR,205.164.56.0/24,DIRECT
+  - IP-CIDR,63.251.124.0/24,DIRECT
+
+script:
+  - match: "https://gum.criteo.com/appevent/v1/2379*"
+    name: "Throttle Rewrite"
+    type: http-response
+    require-body: true
+    max-size: 0
+    script-url: "https://raw.githubusercontent.com/axinhouzilaoyue/myScript/main/surge/throttle-rewrite.js"
+    timeout: 10
+    enabled: true
+
+rewrite:
+  - "^https://aax-fe-sin.amazon-adsystem.com/x/px/p/.+/{.+?} reject"
+  - "^https://httpdns.music.163.com reject"
